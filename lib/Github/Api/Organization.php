@@ -53,15 +53,18 @@ class Organization extends AbstractApi
      * @param string $organization the user name
      * @param string $type         the type of repositories
      * @param int    $page         the page
+     * @param array  $attributes   additional parameters to send with the request
      *
      * @return array the repositories
      */
-    public function repositories($organization, $type = 'all', $page = 1)
+    public function repositories($organization, $type = 'all', $page = 1, $attributes = [])
     {
-        return $this->get('/orgs/'.rawurlencode($organization).'/repos', [
+        $attributes = array_merge([
             'type' => $type,
-            'page' => $page,
-        ]);
+            'page' => $page
+        ], $attributes);
+
+        return $this->get('/orgs/'.rawurlencode($organization).'/repos', $attributes);
     }
 
     /**
